@@ -21,12 +21,12 @@
 -- This script handles making megaworms behave correctly in-game.
 -- Lots of horrible hacks, hooray!
 -- Segments are "coded as minions", they're just additional units that get teleported around.
--- They are able to attack, though.
 
 -- http://www.bay12forums.com/smf/index.php?topic=164123.msg7738016#msg7738016
 
 --- TODO ---
 -- Are IDs persistent?
+-- Figure out some way to make the segments not attack / run away from each other
 
 --- IMPORTS ---
 local repeat_util = require('repeat-util')

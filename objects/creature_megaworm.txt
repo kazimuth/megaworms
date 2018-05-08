@@ -2,24 +2,56 @@ creature_megaworm
 
 [OBJECT:CREATURE]
 
+Note: a hacky raw system: if the HEAD caste's DESCRIPTION tag cotains the text /[0-9]+ segments/, that will be the max length for the megaworm.
+If it has the text /split/, the megaworm will be splittable.
+Note: the HEAD and SEGMENT castes MUST be in the order HEAD,SEGMENT!
+
+TODO:
+- mythical / fantasy serpents / worms
+	- lung dragon
+	- feathered serpent
+	- nidhogg
+	- sea serpent [bakunawa?, https://en.wikipedia.org/wiki/Bakunawa]; already exists in game
+	- rainbow serpent
+- actual giant worms
+	- titanoboa [also a sort of sea serpent for rivers, https://en.wikipedia.org/wiki/Titanoboa]
+	- eucinid / bobbit worm https://en.wikipedia.org/wiki/Eunicidae
+	- giant millipede [https://en.wikipedia.org/wiki/Arthropleura but bigger?]
+	- giant eel [https://en.wikipedia.org/wiki/Giant_moray but bigger]
+- my own
+	- marauding filament: basically a big steel garotte that tries to fuck things up, beware
+	- lava worm: what you'd expect; not building destroyer, tameable, trainable; spits magma
+	- cattlepede: a type of domestic animal
+- add extra tails to sea serpent / existing creatures? later
+
 [CREATURE:SHAI_HULUD_MEGAWORM]
-	Note: a hacky raw system: if the DESCRIPTION tag cotains the text /[0-9]+ segments/, that will be the max length for the megaworm.
-	If it has the text /split/, the megaworm will be splittable.
-	[DESCRIPTION:A BIG burrowing creature, found in moist soil.  It is legless, long and thin. It can grow up to 16 segments long and can will split in two if severed.]
 	[NAME:shai hulud:shai huluds:shai hulud]
-	Note: the HEAD and SEGMENT races MUST be in this order!
+	Megaworms from Dune.
+	TODO: crysknife, burning blood, hard scales, long teeth, correct size, larva, spice melange (via brew drink, or powder maybe?)
 	[CASTE:HEAD]
-		[CASTE_NAME:shai hulud head:shai hulud heads:shai hulud head]
+		[CASTE_NAME:shai hulud:shai huluds:shai hulud]
+		[DESCRIPTION:The head of a colossal worm.
+		It is covered in large, hard, overlapping scales. Its enormous teeth glow cyan. Its breath is furnace-hot.
+		It dwells in the deep desert, attacking when it senses movement in the sand and rocks.]
+		http://dune.wikia.com/wiki/Sandworm#Physical_Characteristics
 		[GNAWER:gnawed]
 		[GAIT:WALK:Crawl:900:NO_BUILD_UP:0:LAYERS_SLOW:STRENGTH:AGILITY]
 		[GAIT:CRAWL:Crawl:900:NO_BUILD_UP:0:LAYERS_SLOW:STRENGTH:AGILITY]
 		[CASTE_TILE:'#']
 		[CASTE_COLOR:4:0:1]
+		[POP_RATIO:1] Needs to be set to 1, segment should be set to 0
 		[MEANDERER]
 		[LARGE_PREDATOR]
-		[SEMIMEGABEAST]
-		[BODY:BODY_WITH_HEAD_FLAG:HEART:GUTS:BRAIN:MOUTH:GENERIC_TEETH]
-		[ATTACK:BITE:CHILD_BODYPART_GROUP:BY_CATEGORY:HEAD:BY_CATEGORY:TOOTH]
+		[MEGABEAST]
+		[LAIR:WILDERNESS_LOCATION:80]
+		[LAIR:LABYRINTH:20] it sort of makes sense, o
+		[LAIR_HUNTER]
+		[NO_GENDER]
+		[BODY:SEGMENT_MW:STRUTS_MW:TRILATERAL_MANDIBLES_MW:MANDIBLE_TEETH_MW:MOUTH:BRAIN:HEART:GUTS]
+		[BODYGLOSS:MAW]
+		[CASTE_GLOWCOLOR:3:4:1]
+		[CASTE_GLOWTILE:'#'] teeth!
+		[ATTACK:BITE:BODYPART:BY_CATEGORY:TOOTH]
 			[ATTACK_SKILL:BITE]
 			[ATTACK_VERB:bite:bites]
 			[ATTACK_CONTACT_PERC:100]
@@ -28,11 +60,16 @@ creature_megaworm
 			[ATTACK_FLAG_EDGE]
 			[ATTACK_PREPARE_AND_RECOVER:3:3]
 			[ATTACK_FLAG_CANLATCH]
+		TODO: use?
+		[BODY_APPEARANCE_MODIFIER:LENGTH:90:95:98:100:102:105:110]
+		[NATURAL_SKILL:BITE:10]
+		[NATURAL_SKILL:SITUATIONAL_AWARENESS:12]
 	[CASTE:SEGMENT]
-		[CASTE_NAME:shai hulud segment:shai hulud segment:shai hulud segment]
+		[CASTE_NAME:shai hulud tail:shai hulud tails:shai hulud tail]
 		[GNAWER:burst]
 		[IMMOBILE]
-		[BENIGN]
+		[POP_RATIO:0]
+		[BENIGN] means worm segments don't attack :/ otherwise they all kill each other
 		[NO_EAT]
 		[NO_DRINK]
 		[NO_GENDER]
@@ -41,34 +78,84 @@ creature_megaworm
 		[NOTHOUGHT]
 		[NO_THOUGHT_CENTER_FOR_MOVEMENT]
 		[NO_DIZZINESS]
-		[SET_TL_GROUP:BY_CATEGORY:ALL:SKIN]
-			[TL_COLOR_MODIFIER:GRAY:1]
-				[TLCM_NOUN:skin:SINGULAR]
-		[BODY:BASIC_1PARTBODY:GUTS]
+		[BODY:SEGMENT_MW:STRUTS_MW:HEART]
 	[SELECT_CASTE:ALL]
 	[CREATURE_TILE:'O']
 	[PETVALUE:1000]
-	[FREQUENCY:100]
-	[CLUSTER_NUMBER:2:10]
-	OPPOSED_TO_LIFE
-	NOT_LIVING
-	[AT_PEACE_WITH_WILDLIFE]
-	[COMMON_DOMESTIC]
-	[PET]
-	[NOBONES]
-	[NATURAL]
-	[COLOR:4:0:0]
-	[NOT_BUTCHERABLE]
-	[BIOME:FOREST_TAIGA]
-	[BIOME:ANY_TEMPERATE]
-	[BIOME:ANY_TROPICAL]
-	[POPULATION_NUMBER:250:500]
-	[PREFSTRING:thundering gait]
-	[BODY_DETAIL_PLAN:CHITIN_MATERIALS]
-	[BODY_DETAIL_PLAN:CHITIN_TISSUES]
-	[BODY_DETAIL_PLAN:EXOSKELETON_TISSUE_LAYERS:CHITIN:FAT:MUSCLE]
+	[ATTACK:SLAP:BODYPART:SEGMENT]
+		[ATTACK_SKILL:STANCE_STRIKE]
+		[ATTACK_VERB:smash:smashes]
+		[ATTACK_CONTACT_PERC:100]
+		[ATTACK_PREPARE_AND_RECOVER:4:4]
+		[ATTACK_PRIORITY:SECOND]
+		[ATTACK_FLAG_BAD_MULTIATTACK]
+	[BODY_DETAIL_PLAN:STANDARD_MATERIALS]
+		[REMOVE_MATERIAL:SKIN]
+		[REMOVE_MATERIAL:LEATHER]
+		[REMOVE_MATERIAL:PARCHMENT]
+		[REMOVE_MATERIAL:HAIR]
+		[USE_MATERIAL_TEMPLATE:SCALE:SCALE_TEMPLATE]
+		[USE_MATERIAL_TEMPLATE:TOOTH:TOOTH_TEMPLATE]
+	[SELECT_MATERIAL:SCALE]
+		taken from iron
+		[SOLID_DENSITY:7850]
+		[MOLAR_MASS:55845]
+		[IMPACT_YIELD:542500]
+		[IMPACT_FRACTURE:1085000]
+		[IMPACT_STRAIN_AT_YIELD:319]
+		[COMPRESSIVE_YIELD:542500]
+		[COMPRESSIVE_FRACTURE:1085000]
+		[COMPRESSIVE_STRAIN_AT_YIELD:319]
+		[TENSILE_YIELD:155000]
+		[TENSILE_FRACTURE:310000]
+		[TENSILE_STRAIN_AT_YIELD:73]
+		[TORSION_YIELD:155000]
+		[TORSION_FRACTURE:310000]
+		[TORSION_STRAIN_AT_YIELD:189]
+		[SHEAR_YIELD:155000]
+		[SHEAR_FRACTURE:310000]
+		[SHEAR_STRAIN_AT_YIELD:189]
+		[BENDING_YIELD:155000]
+		[BENDING_FRACTURE:310000]
+		[BENDING_STRAIN_AT_YIELD:73]
+		[MAX_EDGE:10000]
+	[SELECT_MATERIAL:TOOTH]
+		taken from adamantine
+		[STATE_COLOR:ALL:AQUA]
+		[DISPLAY_COLOR:3:3:1]
+		[BUILD_COLOR:3:3:1]
+		[MATERIAL_VALUE:300]
+		[SOLID_DENSITY:200]
+		[LIQUID_DENSITY:2600]
+		[MOLAR_MASS:55845]
+		[IMPACT_YIELD:5000000]
+		[IMPACT_FRACTURE:5000000]
+		[IMPACT_STRAIN_AT_YIELD:0]
+		[COMPRESSIVE_YIELD:5000000]
+		[COMPRESSIVE_FRACTURE:5000000]
+		[COMPRESSIVE_STRAIN_AT_YIELD:0]
+		[TENSILE_YIELD:5000000]
+		[TENSILE_FRACTURE:5000000]
+		[TENSILE_STRAIN_AT_YIELD:0]
+		[TORSION_YIELD:5000000]
+		[TORSION_FRACTURE:5000000]
+		[TORSION_STRAIN_AT_YIELD:0]
+		[SHEAR_YIELD:5000000]
+		[SHEAR_FRACTURE:5000000]
+		[SHEAR_STRAIN_AT_YIELD:0]
+		[BENDING_YIELD:5000000]
+		[BENDING_FRACTURE:5000000]
+		[BENDING_STRAIN_AT_YIELD:0]
+		[MAX_EDGE:100000]
+
+	[BODY_DETAIL_PLAN:STANDARD_TISSUES]
+		[REMOVE_TISSUE:SKIN]
+		[REMOVE_TISSUE:HAIR]
+		[USE_TISSUE_TEMPLATE:SCALE:SCALE_TEMPLATE]
+	[BODY_DETAIL_PLAN:VERTEBRATE_TISSUE_LAYERS:SCALE:FAT:MUSCLE:BONE:CARTILAGE]
+	[SELECT_TISSUE_LAYER:HEART:BY_CATEGORY:HEART]
+	  	[TL_MAJOR_ARTERIES]
 	[HAS_NERVES]
-	[MUNDANE]
 	[USE_MATERIAL_TEMPLATE:ICHOR:ICHOR_TEMPLATE]
 	[BLOOD:LOCAL_CREATURE_MAT:ICHOR:LIQUID]
 	[CREATURE_CLASS:GENERAL_POISON]
@@ -76,11 +163,23 @@ creature_megaworm
 	[GETS_INFECTIONS_FROM_ROT]
 	[USE_MATERIAL_TEMPLATE:PUS:PUS_TEMPLATE]
 	[PUS:LOCAL_CREATURE_MAT:PUS:LIQUID]
-	[BODY_SIZE:0:0:10000]
-	[BODY_APPEARANCE_MODIFIER:LENGTH:90:95:98:100:102:105:110]
-	[MAXAGE:2:30000]
 	[CANNOT_JUMP]
-	[ALL_ACTIVE]
-	[NO_SLEEP]
-	[NO_DIZZINESS]
     [EXTRAVISION]
+	[NOBONES]
+	[PREFSTRING:cinnamon scent]
+	[PREFSTRING:thundering gait]
+	[SPHERE:LONGEVITY]
+	[SPHERE:EARTH]
+	[SPHERE:TRUTH]
+	[SPHERE:WISDOM]
+	if we were being really rigorous this'd be only sand desert, but hey, i want people to run into them
+	[BIOME:ANY_DESERT]
+	[COLOR:4:0:0]
+	[MUNDANE]
+	[NATURAL]
+	[FREQUENCY:1]
+	[MAXAGE:2:30000]
+	[ALL_ACTIVE]
+	
+	[POPULATION_NUMBER:250:500]
+	[BODY_APPEARANCE_MODIFIER:LENGTH:90:95:98:100:102:105:110]
